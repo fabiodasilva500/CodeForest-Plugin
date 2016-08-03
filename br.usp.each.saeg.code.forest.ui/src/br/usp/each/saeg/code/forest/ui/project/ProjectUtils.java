@@ -82,6 +82,7 @@ public class ProjectUtils {
                         result.put(arg.getName(), new ArrayList<IResource>());
                     }
                     result.get(arg.getName()).add(arg);
+                    System.out.println("Argumento:"+arg.getName());
                 }
                 return true;
             }

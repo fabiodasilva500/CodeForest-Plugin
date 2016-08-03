@@ -24,12 +24,12 @@ public class SquareAssembler {
         if (trunk.isEmpty()) {
             currentHorSize += arg.getLinearSize() + (2 * SquareForest.RADIUS);
             trunk.add(arg);
-            minSeparator = (trunk.size() + 1) * 8 * SquareForest.RADIUS;
+            minSeparator = (trunk.size() + 3) * 8 * SquareForest.RADIUS;  //aumentando o tamanho da área da floresta
             return true;
         }
         if (Double.compare(currentHorSize + arg.getLinearSize() + (2 * SquareForest.RADIUS), maxHorSize) <= 0) {
             trunk.add(arg);
-            minSeparator = (trunk.size() + 1) * 8 * SquareForest.RADIUS;
+            minSeparator = (trunk.size() + 3) * 8 * SquareForest.RADIUS;  //aumentando o tamanho da área da floresta
             currentHorSize += arg.getLinearSize();
             return true;
         }
@@ -44,6 +44,7 @@ public class SquareAssembler {
         return size;
     }
 
+    //Realiza a separação dos cactus a direita da área
     public float getSeparatorSpace(float effectiveX) {
         return Math.max(((effectiveX - currentHorSize) / (trunk.size() + 1)), SquareForest.RADIUS);
     }

@@ -9,8 +9,11 @@ import br.usp.each.saeg.code.forest.domain.*;
 /**
  * @author Danilo Mutti (dmutti@gmail.com)
  */
+
+//Classe que retorna sempre o status atual do projeto
 public class ProjectState {
 
+	//Classe que contém todas as informações do status da inspeção
     private final Map<String, Collection<TreeData>> analysisResult = new HashMap<String, Collection<TreeData>>();
     private final Set<String> marked = new HashSet<String>();
     private final Map<String, Collection<SimpleMarkerAnnotation>> fileAnnotations = new HashMap<String, Collection<SimpleMarkerAnnotation>>();
@@ -50,7 +53,8 @@ public class ProjectState {
     public void setAnalyzed(boolean analyzed) {
         this.analyzed = analyzed;
     }
-
+    
+    //Método que verifica se a análise já foi realizada
     public boolean containsAnalysis() {
         return analysisResult.size() > 0;
     }

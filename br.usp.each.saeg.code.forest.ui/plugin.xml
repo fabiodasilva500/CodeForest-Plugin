@@ -186,8 +186,7 @@
         </updater>
     </extension>
 
-    <extension
-        point="org.eclipse.ui.commands">
+    <extension point="org.eclipse.ui.commands">
         <category
             id="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.category.name">
@@ -202,23 +201,30 @@
             categoryId="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.commands.runJaguar">
         </command>
-        <command
-            id="br.usp.each.saeg.code.forest.ui.commands.runAnalysis"
-            categoryId="br.usp.each.saeg.code.forest.ui.category"
-            name="br.usp.each.saeg.code.forest.ui.commands.runAnalysis">
-        </command>
+		
+		<!-- Definindo o ID, categoryId que o componente pertence e o nome da extensão para posterior acesso as classes por meio da requisição do menu -->
+		<!-- Basicamente é definida a categoria que o elemento pertence -->
         <command
             id="br.usp.each.saeg.code.forest.ui.commands.removeAnalysis"
             categoryId="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.commands.removeAnalysis">
         </command>
         <command
+            id="br.usp.each.saeg.code.forest.ui.commands.perform.analysis"
+            categoryId="br.usp.each.saeg.code.forest.ui.category"
+            name="br.usp.each.saeg.code.forest.ui.commands.perform.analysis">
+        </command>
+        <command
             id="br.usp.each.saeg.code.forest.ui.commands.showKeyboardCodeForest"
             categoryId="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.commands.showKeyboardCodeForest">
         </command>
+	
     </extension>
-    <extension
+	
+	<!-- No commandId do extension é definida qual classe será acessada ao clicar na opção correspondente ao commandId do menu -->
+	<!-- Basicamente é configurado qual classe será acessada pelo commandId definido -->
+   <extension
         point="org.eclipse.ui.handlers">
         <handler
             class="br.usp.each.saeg.code.forest.ui.handlers.RunAllHandler"
@@ -228,9 +234,9 @@
             class="br.usp.each.saeg.code.forest.ui.handlers.RunJaguarHandler"
             commandId="br.usp.each.saeg.code.forest.ui.commands.runJaguar">
         </handler>
-        <handler
-            class="br.usp.each.saeg.code.forest.ui.handlers.RunAnalysisHandler"
-            commandId="br.usp.each.saeg.code.forest.ui.commands.runAnalysis">
+       <handler
+            class="br.usp.each.saeg.code.forest.ui.handlers.ViewAsCodeForestAnalysisHandler"
+            commandId="br.usp.each.saeg.code.forest.ui.commands.perform.analysis">
         </handler>
         <handler
             class="br.usp.each.saeg.code.forest.ui.handlers.RemoveAnalysisHandler"
@@ -240,6 +246,7 @@
             class="br.usp.each.saeg.code.forest.ui.handlers.ViewAsCodeForestKeyboardHandler"
             commandId="br.usp.each.saeg.code.forest.ui.commands.showKeyboardCodeForest">
         </handler>
+	
     </extension>
     <extension
         id="add.item"
@@ -265,6 +272,9 @@
                 </visibleWhen>
             </menu>
         </menuContribution>
+		
+		<!-- Configurando no menu do plugin todas as classes do pacote handler para visualização  -->
+		<!-- É definido quando a classe configurada no command de uma categoria pertencente uma extensão será acessada -->
         <menuContribution
             locationURI= "popup:br.usp.each.saeg.code.forest.ui.menu?after=additions">
             <command
@@ -279,12 +289,12 @@
                 id="br.usp.each.saeg.code.forest.ui.menu.item.runJaguar"
                 label="Run Jaguar">
             </command>
-            <command
-                commandId="br.usp.each.saeg.code.forest.ui.commands.runAnalysis"
+			  <command
+                commandId="br.usp.each.saeg.code.forest.ui.commands.perform.analysis"
                 icon="icons/analyse_it.gif"
-                id="br.usp.each.saeg.code.forest.ui.menu.item.runAnalysis"
+                id="br.usp.each.saeg.code.forest.ui.menu.item.perform.analysis"
                 label="Perform analysis">
-            </command>
+             </command>
         </menuContribution>
         <menuContribution
             locationURI= "popup:br.usp.each.saeg.code.forest.ui.menu?after=additions">
@@ -320,6 +330,14 @@
             id="br.usp.each.saeg.code.forest.menu.view.category"
             name="Code Forest">
       </category>
+         <view 
+	       category="br.usp.each.saeg.code.forest.menu.view.category"
+	       class="br.usp.each.saeg.code.forest.ui.views.CodeForestAnalysisView"
+           icon="icons/gray_cactus.gif"
+	  	   id="br.usp.each.saeg.code.forest.menu.view.perform.analysis"
+	  	   allowMultiple="true"
+           name="Perform Analysis">
+       </view>
       <view
             category="br.usp.each.saeg.code.forest.menu.view.category"
             class="br.usp.each.saeg.code.forest.ui.views.CodeForestMouseView"
@@ -336,7 +354,7 @@
             allowMultiple="true"
             name="Code Forest Keyboard View">
       </view>
-   </extension>
+      </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension

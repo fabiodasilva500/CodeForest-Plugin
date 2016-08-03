@@ -20,7 +20,17 @@ public class XmlClass {
     private int close;
     private String content;
     private boolean javaInterface;
-
+    
+    //Adequação dos atributos a nova versão da Jaguar
+    private int cef;
+    private int cep;
+    private int cnf;
+    private int cnp;
+    
+    private int qtdMethods;
+    
+  
+    //Representa um atributo dentro de uma tag
     @XmlAttribute(name="name")
     public String getName() {
         return name;
@@ -29,6 +39,7 @@ public class XmlClass {
         this.name = name;
     }
 
+    //Representa um atributo dentro de uma tag
     @XmlAttribute(name="suspicious-value")
     public BigDecimal getScore() {
         return score;
@@ -39,6 +50,7 @@ public class XmlClass {
         }
     }
 
+    //Representa uma Tag dentro do XML
     @XmlElement(name="method")
     public List<XmlMethod> getMethods() {
         return methods;
@@ -62,6 +74,7 @@ public class XmlClass {
         return null;
     }
 
+    //Representa um atributo dentro de uma tag
     @XmlAttribute(name="location")
     public int getLoc() {
         return loc;
@@ -70,6 +83,7 @@ public class XmlClass {
         this.loc = loc;
     }
 
+    //Representa um atributo dentro de uma tag
     @XmlAttribute(name="number")
     public int getNumber() {
         return number;
@@ -118,4 +132,43 @@ public class XmlClass {
     public void setJavaInterface(boolean javaInterface) {
         this.javaInterface = javaInterface;
     }
+    
+    
+    //Criação de novos atributos de acordo com a estrutura da Jaguar
+    @XmlAttribute(name="cef")
+  	public int getCef() {
+		return cef;
+	}
+  	
+	public void setCef(int cef) {
+		this.cef = cef;
+	}
+	
+	@XmlAttribute(name="cep")
+	public int getCep() {
+		return cep;
+	}
+	
+	
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
+	
+	@XmlAttribute(name="cnf")
+	public int getCnf() {
+		return cnf;
+	}
+	public void setCnf(int cnf) {
+		this.cnf = cnf;
+	}
+	
+	@XmlAttribute(name="cnp")
+	public int getCnp() {
+		return cnp;
+	}
+	public void setCnp(int cnp) {
+		this.cnp = cnp;
+	}
+	
+	
 }

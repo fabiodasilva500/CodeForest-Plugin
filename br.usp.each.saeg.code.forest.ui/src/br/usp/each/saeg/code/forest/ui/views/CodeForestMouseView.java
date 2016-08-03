@@ -29,6 +29,8 @@ import com.sun.j3d.utils.universe.*;
  * @author Danilo Mutti (dmutti@gmail.com)
  */
 public class CodeForestMouseView extends ViewPart {
+	public CodeForestMouseView() {
+	}
 
     public static final String VIEW_ID = "br.usp.each.saeg.code.forest.menu.view.code.forest.mouse";
     private Canvas3D cv;

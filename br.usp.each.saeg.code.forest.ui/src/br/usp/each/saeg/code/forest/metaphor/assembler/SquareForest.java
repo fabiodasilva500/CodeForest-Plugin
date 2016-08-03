@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.usp.each.saeg.code.forest.domain.TreeData;
+import br.usp.each.saeg.code.forest.inspection.requested.StatusProject;
 import br.usp.each.saeg.code.forest.metaphor.Forest;
 import br.usp.each.saeg.code.forest.metaphor.Size;
 import br.usp.each.saeg.code.forest.metaphor.Trunk;	
@@ -26,15 +27,40 @@ public class SquareForest implements Forest {
 	private final static Logger logger = LoggerFactory.getLogger(LogListener.class.getName());
 	
     static final float RADIUS = Size.BIG.getRadius();
-    static final short MAX_TRUNK = 5;
+    static short MAX_TRUNK;
+	static double MIN_SUSPICIOUS_VALUES;
+    static int newValue;
     private final ForestRestrictions restrictions = new ForestRestrictions();
     private List<SquareAssembler> matrix = new ArrayList<SquareAssembler>();
     private List<TransformGroup> tgs = new ArrayList<TransformGroup>();
     private List<Trunk> trunks = new ArrayList<Trunk>();
+    
+    public SquareForest(){
+    	
+    }
 
     public SquareForest(List<TreeData> arg) {
         List<TreeData> coveredTrees = TreeData.covered(arg);
-
+        
+        StatusProject st = new StatusProject();
+        
+        System.out.println("Requisição atual:"+st.getRequisicaoInspecao());
+        
+        if(st.getRequisicaoInspecao().equalsIgnoreCase("firstInspection")){
+        MAX_TRUNK=7;
+		MIN_SUSPICIOUS_VALUES=0.8;
+        System.out.println("Primeira inspeção");
+        }
+        else{
+        String number = String.valueOf(st.getNumeroDeCactus());
+        MAX_TRUNK = Short.parseShort(number);    
+        MIN_SUSPICIOUS_VALUES = st.getValorDeSuspeicao();      	
+        System.out.println("Segunda inspeção:"+MAX_TRUNK);
+        System.out.println("Valor de suspeição:"+MIN_SUSPICIOUS_VALUES);
+        
+        }
+        
+       
         Collections.sort(coveredTrees);
         float xSize = 0;
         short totalAddedTrunks = 0;
@@ -47,14 +73,21 @@ public class SquareForest implements Forest {
             if (data.getScore() < 0 || data.getTotalLoCs() == 0) {
                 continue;
             }
+
+            //Modificando a largura dos cactus e definindo o valor minimo para que ele seja exibido na floresta
             Trunk tr = new Trunk(data, restrictions);
-            if(data.getScore() > 0.8){
+            if(data.getScore() >= MIN_SUSPICIOUS_VALUES){
             	trunks.add(tr);
             	totalAddedTrunks++;
-            	xSize += tr.getLinearSize();
+            	xSize += tr.getLinearSize()+10;
             }
         }
-        xSize = xSize + ((coveredTrees.size() + 1) * RADIUS);
+        
+        //Realiza a separação dos cactus que estejam praticamente na mesma área
+        xSize = xSize + ((coveredTrees.size() + 200) * RADIUS);
+        System.out.println("Size:"+xSize);
+        
+        
         float idealX = (float) (xSize / Math.sqrt(coveredTrees.size()));
 
         for (int i = 0; i < trunks.size(); i++) {
@@ -99,6 +132,7 @@ public class SquareForest implements Forest {
         for (SquareAssembler row : matrix) {
             xs.add(row.getX());
         }
+        // JOptionPane.showMessageDialog(null, "Tamanho da matriz:"+matrix.size());
         return CollectionUtils.max(xs);
     }
 
@@ -139,6 +173,7 @@ public class SquareForest implements Forest {
 
     @Override
     public float getX() {
+    	//JOptionPane.showMessageDialog(null, "Valor máximo atual:"+ getMaxX());
         return getMaxX()/2;
     }
 
@@ -168,4 +203,6 @@ public class SquareForest implements Forest {
         restrictions.reset();
         applyForestRestrictions();
     }
+    
+ 
 }

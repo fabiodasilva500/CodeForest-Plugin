@@ -3,6 +3,7 @@ package br.usp.each.saeg.code.forest.xml;
 import java.math.*;
 import java.util.*;
 import javax.xml.bind.annotation.*;
+
 import org.apache.commons.lang3.*;
 
 /**
@@ -17,6 +18,13 @@ public class XmlPackage {
     private int loc = -1;
     private int start;
     private int end;
+    
+    //Adequação do código para interpretação do XML da nova versão da Jaguar
+    private int cef;
+    private int cep;
+    private int cnf;
+    private int cnp;
+    private int qtdClasses;
 
     @XmlAttribute(name="name")
     public String getName() {
@@ -36,9 +44,10 @@ public class XmlPackage {
         }
     }
 
+    //Representa uma tag dentro do XML
     @XmlElement(name="class")
     public List<XmlClass> getClasses() {
-        return classes;
+    	return classes;
     }
     public void setClasses(List<XmlClass> classes) {
         this.classes = classes;
@@ -88,4 +97,42 @@ public class XmlPackage {
     public void setEnd(int end) {
         this.end = end;
     }
+    
+    
+    //Criação de novos atributos de acordo com a estrutura da Jaguar
+    @XmlAttribute(name="cef")
+  	public int getCef() {
+		return cef;
+	}
+  	
+	public void setCef(int cef) {
+		this.cef = cef;
+	}
+	
+	@XmlAttribute(name="cep")
+	public int getCep() {
+		return cep;
+	}
+	
+	
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
+	
+	@XmlAttribute(name="cnf")
+	public int getCnf() {
+		return cnf;
+	}
+	public void setCnf(int cnf) {
+		this.cnf = cnf;
+	}
+	
+	@XmlAttribute(name="cnp")
+	public int getCnp() {
+		return cnp;
+	}
+	public void setCnp(int cnp) {
+		this.cnp = cnp;
+	}
+	
 }

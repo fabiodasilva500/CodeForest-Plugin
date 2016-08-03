@@ -9,6 +9,7 @@ import org.eclipse.ui.*;
 import br.usp.each.saeg.code.forest.ui.markers.*;
 import br.usp.each.saeg.code.forest.ui.project.*;
 
+//Classe que realiza a limpeza de todas as janelas do plugin
 public class PluginCleanup {
 
     public static void clean(IProject project) {
@@ -29,8 +30,8 @@ public class PluginCleanup {
             for (IWorkbenchPage page : window.getPages()) {
                 IViewReference[] viewReferences = page.getViewReferences();
                 for (IViewReference ivr : viewReferences) {
-                    if (ivr.getId().startsWith("br.usp.each.saeg.code.forest.menu.view.code.forest") && project.getName().equals(ivr.getSecondaryId())) {
-                        page.hideView(ivr);
+                    if (ivr.getId().startsWith("br.usp.each.saeg.code.forest.menu.view.code.forest") && project.getName().equals(ivr.getSecondaryId())){
+                 page.hideView(ivr);
                     }
                 }
             }

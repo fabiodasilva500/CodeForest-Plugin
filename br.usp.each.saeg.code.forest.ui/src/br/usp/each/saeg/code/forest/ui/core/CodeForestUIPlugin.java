@@ -5,6 +5,7 @@ import java.text.*;
 
 import org.apache.commons.io.*;
 import org.apache.commons.lang3.*;
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.swt.widgets.*;
@@ -20,6 +21,8 @@ import br.usp.each.saeg.code.forest.ui.project.*;
 /**
  * @author Danilo Mutti (dmutti@gmail.com)
  */
+
+//Classe que armazena todas as informações das interações realizadas no plugin
 public class CodeForestUIPlugin extends AbstractUIPlugin {
 
     public static final String ID = "br.usp.each.saeg.codeforest.ui";
@@ -27,6 +30,8 @@ public class CodeForestUIPlugin extends AbstractUIPlugin {
     private EditorTracker tracker;
     private static final IWorkbenchWindow[] NO_WINDOWS = new IWorkbenchWindow[0];
     private LogListener logListener = new LogListener();
+    private static ExecutionEvent arg;
+    
 
     /** Identifier for the 'cf' launch group. */
     public static final String ID_COVERAGE_LAUNCH_GROUP = ID + ".launchGroup.cf";
@@ -116,5 +121,16 @@ public class CodeForestUIPlugin extends AbstractUIPlugin {
 
     public static ITextEditor getEditor() {
         return (ITextEditor) getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+    }
+    
+    
+    //Método que armazena o argumento atual para a análise de perfomance
+    public static void setActualExecutionEvent(ExecutionEvent actualEvent){
+    arg = actualEvent;
+    }
+    
+    //Método que retorna o argumento armazenado para a análise de perfomance
+    public static ExecutionEvent getActualEvent (){
+    return arg;
     }
 }

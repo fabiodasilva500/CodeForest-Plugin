@@ -2,6 +2,8 @@ package br.usp.each.saeg.code.forest.xml;
 
 import java.math.*;
 import java.util.*;
+
+import javax.swing.JOptionPane;
 import javax.xml.bind.annotation.*;
 
 /**
@@ -20,7 +22,22 @@ public class XmlMethod {
     private String content;
     private Integer scriptPosition;
     private Float scriptScore;
-
+    
+    //Adequação do código para interpretação do XML da técnica line
+    private int cef;
+    private int cep;
+    private int cnf;
+    private int cnp;
+    
+    //Adequação para que a CodeForest também seja capaz de interpretar a técnica DUA
+    private int def;
+    private int index;
+    private int target;
+    private int use;
+    private String var;
+    
+   
+    //Representa um atributo dentro de uma tag
     @XmlAttribute(name="suspicious-value")
     public BigDecimal getScore() {
         return score;
@@ -31,6 +48,7 @@ public class XmlMethod {
         }
     }
 
+    //Representa uma Tag dentro do XML
     @XmlElement(name="requirement")
     public List<XmlStatement> getStatements() {
         return statements;
@@ -92,6 +110,8 @@ public class XmlMethod {
         return name;
     }
     public void setName(String name) {
+ 
+    	//System.out.println("Recebendo o nome do método:"+name);
         this.name = name;
     }
 
@@ -160,4 +180,83 @@ public class XmlMethod {
         }
 
     }
+    
+    //Criação de novos atributos de acordo com a estrutura da Jaguar
+    @XmlAttribute(name="cef")
+  	public int getCef() {
+		return cef;
+	}
+  	
+	public void setCef(int cef) {
+		this.cef = cef;
+	}
+	
+	@XmlAttribute(name="cep")
+	public int getCep() {
+		return cep;
+	}
+	
+	
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
+	
+	@XmlAttribute(name="cnf")
+	public int getCnf() {
+		return cnf;
+	}
+	public void setCnf(int cnf) {
+		this.cnf = cnf;
+	}
+	
+	@XmlAttribute(name="cnp")
+	public int getCnp() {
+		return cnp;
+	}
+	public void setCnp(int cnp) {
+		this.cnp = cnp;
+	}
+	
+	@XmlAttribute(name="def")
+	public int getDef() {
+		return def;
+	}
+	public void setDef(int def) {
+		this.def = def;
+	}
+	
+	@XmlAttribute(name="index")
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	@XmlAttribute(name="target")
+	public int getTarget() {
+		return target;
+	}
+	public void setTarget(int target) {
+		this.target = target;
+	}
+	
+	@XmlAttribute(name="use")
+	public int getUse() {
+		return use;
+	}
+	public void setUse(int use) {
+		this.use = use;
+	}
+	
+	@XmlAttribute(name="var")
+	public String getVar() {
+		return var;
+	}
+	public void setVar(String var) {
+		this.var = var;
+	}
+	
+	
 }

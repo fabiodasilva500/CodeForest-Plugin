@@ -15,6 +15,16 @@ public class XmlStatement {
     private int start;
     private int end;
     private String content;
+    
+   //Adequação do código para interpretação do XML da nova versão da Jaguar
+    private String xmlnsnsi;
+    private String xsiType;
+    private String type;
+    private int cef;
+    private int cep;
+    private int cnf;
+    private int cnp;
+    
 
     @XmlAttribute(name="location")
     public int getLoc() {
@@ -58,4 +68,69 @@ public class XmlStatement {
     public void setContent(String content) {
         this.content = content;
     }
+    
+    //Criação de novos atributos de acordo com a estrutura da Jaguar
+    @XmlAttribute(name="xmlns:xsi")
+    public String getXmlnsnsi() {
+		return xmlnsnsi;
+	}
+    
+    public void setXmlnsnsi(String xmlnsnsi) {
+		this.xmlnsnsi = xmlnsnsi;
+	}
+    
+    @XmlAttribute(name="xsi:type")
+	public String getXsiType() {
+		return xsiType;
+	}
+	
+	public void setXsiType(String xsiType) {
+		this.xsiType = xsiType;
+	}
+	
+	@XmlAttribute(name="type")
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
+    @XmlAttribute(name="cef")
+  	public int getCef() {
+		return cef;
+	}
+  	
+	public void setCef(int cef) {
+		this.cef = cef;
+	}
+	
+	@XmlAttribute(name="cep")
+	public int getCep() {
+		return cep;
+	}
+	
+	
+	public void setCep(int cep) {
+		this.cep = cep;
+	}
+	
+	@XmlAttribute(name="cnf")
+	public int getCnf() {
+		return cnf;
+	}
+	public void setCnf(int cnf) {
+		this.cnf = cnf;
+	}
+	
+	@XmlAttribute(name="cnp")
+	public int getCnp() {
+		return cnp;
+	}
+	public void setCnp(int cnp) {
+		this.cnp = cnp;
+	}
+	
+	
 }

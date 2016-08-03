@@ -202,6 +202,8 @@ public class SourceCodeParser extends ASTVisitor {
         xmlMethod.setEnd(getLineNumberOf(startEnd));
         xmlMethod.setClose(getLineNumberOf(close));
         xmlMethod.setName(methodName);
+
+        //System.out.println("Informando o nome do método:"+methodName);
         xmlMethod.setScore(MINUS_ONE);
         xmlMethod.setContent(node.toString());
         xmlMethod.setScriptPosition(0);
@@ -225,14 +227,26 @@ public class SourceCodeParser extends ASTVisitor {
 
     @Override
     public boolean visit(MethodDeclaration node) {
-        String methodName = node.getName().getFullyQualifiedName();
+        String methodName = "";
+        
+        methodName = node.getName().getFullyQualifiedName();
+    	
+    	//Validação retirada em 05/04 devido ao novo layout de XML
+        /*if(node.getReturnType2()!=null){
+    	methodName = node.getReturnType2()+" "+node.getName().getFullyQualifiedName();
+    	}
+    	else{
+        methodName = node.getName().getFullyQualifiedName();		
+    	}
+    	*/
+    	    	
         if (node.parameters() != null && node.parameters() != null) {
             List<String> parameters = new ArrayList<String>();
             for (Object o : node.parameters()) {
                 SingleVariableDeclaration decl = (SingleVariableDeclaration) o;
                 parameters.add(decl.getType().toString());
             }
-            methodName = methodName + "(" + StringUtils.join(parameters, ",") + ")";
+            methodName = methodName + "(" + StringUtils.join(parameters, ", ") + ")";
         }
 
         XmlClass xmlClass = findParsedXmlClass();

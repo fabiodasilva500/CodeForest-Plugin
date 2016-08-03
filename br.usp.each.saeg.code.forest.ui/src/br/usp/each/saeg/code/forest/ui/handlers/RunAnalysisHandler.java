@@ -21,6 +21,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import br.usp.each.saeg.code.forest.domain.TreeDataBuilder;
 import br.usp.each.saeg.code.forest.domain.TreeDataBuilderResult;
+import br.usp.each.saeg.code.forest.inspection.requested.StatusProject;
 import br.usp.each.saeg.code.forest.source.parser.ParsingResult;
 import br.usp.each.saeg.code.forest.source.parser.SourceCodeParser;
 import br.usp.each.saeg.code.forest.source.parser.SourceCodeUtils;
@@ -29,14 +30,21 @@ import br.usp.each.saeg.code.forest.ui.markers.CodeMarkerFactory;
 import br.usp.each.saeg.code.forest.ui.project.ProjectPersistence;
 import br.usp.each.saeg.code.forest.ui.project.ProjectState;
 import br.usp.each.saeg.code.forest.ui.project.ProjectUtils;
+import br.usp.each.saeg.code.forest.xml.ReadXmlPerformAnalysis;
 import br.usp.each.saeg.code.forest.xml.XmlInput;
 
 /**
  * @author Danilo Mutti (dmutti@gmail.com)
  */
+/*23/04 - Realiza todo o processamento necessário para a leitura do XML, executando posteriormente 
+ *      a análise de perfomance
+ */
+//Classe que realiza todo processamento para leitura do XML gerado pela Jaguar
+//e posterior análise de perfomance 
 public class RunAnalysisHandler extends AbstractHandler {
 
 	private IProject project;
+	private String nomeArquivo;
 	
 	public RunAnalysisHandler() {
 		super();
@@ -46,9 +54,22 @@ public class RunAnalysisHandler extends AbstractHandler {
 		super();
 		this.project = project;
 	}
-
+	
+	public RunAnalysisHandler(IProject project, String nomeArquivo) throws ExecutionException {
+		super();
+		this.project=project;
+		this.nomeArquivo = nomeArquivo;
+		System.out.println("Chegou:"+nomeArquivo);
+		System.out.println(CodeForestUIPlugin.getActualEvent());
+		
+		//Enviando para o método execute o argumento armazenado na ViewAsCodeForestAnalysisHandler
+		execute(CodeForestUIPlugin.getActualEvent());
+	    saveStatus();
+		}
+			
 	@Override
 	public Object execute(ExecutionEvent arg) throws ExecutionException {
+	   System.out.println("Valor de arg:"+arg);
 		if (project == null){
 				project = ProjectUtils.getCurrentSelectedProject();
 		}
@@ -63,12 +84,16 @@ public class RunAnalysisHandler extends AbstractHandler {
 			e.printStackTrace();
 		}
 		
-		XmlInput xmlInput = readXML(project.getFile("codeforest.xml"));
-
+		//Buscando o arquivo selecionado a partir da integração com a Jaguar
+		XmlInput xmlInput = readXML(project.getFile(nomeArquivo));
+		System.out.println("Varrendo:"+nomeArquivo);
+		
 		ProjectState state = ProjectPersistence.getStateOf(project);
 		if (state == null) {
 			return null;
 		}
+		
+		
 		Map<IResource, List<Map<String, Object>>> resourceMarkerProps = new IdentityHashMap<IResource, List<Map<String, Object>>>();
 
 		for (List<IResource> files : ProjectUtils.javaFilesOf(project).values()) {
@@ -79,19 +104,28 @@ public class RunAnalysisHandler extends AbstractHandler {
 				state.getAnalysisResult().put(result.getURI(), buildResult.getTreeData());
 			}
 		}
-
+		
+		
+		
 		CodeMarkerFactory.scheduleMarkerCreation(resourceMarkerProps);
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(arg);
+		System.out.println("Argumentos para ativação:"+arg);
 		IWorkbenchPage page = window.getActivePage();
+		
+	
 		for (IEditorReference editorRef : page.getEditorReferences()) {
 			CodeForestUIPlugin.getEditorTracker().annotateEditor(editorRef);
 		}
+		//Ativação da View
 		state.setAnalyzed(true);
+		
+		
 		CodeForestUIPlugin.ui(project, this, "run analysis");
-
+	
 		return null;
 	}
 
+	//Realiza a leitura do arquivo XML com base na classe XMLInput
 	private XmlInput readXML(IResource resource) {
 		try {
 			return XmlInput.unmarshal(resource.getLocation().toFile());
@@ -126,25 +160,34 @@ public class RunAnalysisHandler extends AbstractHandler {
 	@Override
 	public boolean isEnabled() {
 		IProject project = ProjectUtils.getCurrentSelectedProject();
+		System.out.println("Ativado"+ProjectUtils.getCurrentSelectedProject());
+		
 		if (project == null) {
 			return false;
 		}
 
 		ProjectState state = ProjectPersistence.getStateOf(project);
 		if (state == null) {
+			System.out.println("Desativada");
 			return false;
 		}
 		
 		Map<String, List<IResource>> xmlFiles = ProjectUtils.xmlFilesOf(project);
 
-		if (!xmlFiles.containsKey("codeforest.xml") || xmlFiles.get("codeforest.xml").size() > 1) {
-			return false;
-		}
+		//if (!xmlFiles.containsKey("codeforest.xml") || xmlFiles.get("codeforest.xml").size() > 1) {
+		//	return false;
+		//	}
 		
 		if (!state.isAnalyzed()) {
+			System.out.println("Já analisada");
 			return true;
 		}
 
 		return false;
+	}
+	
+	
+	public void saveStatus(){
+	StatusProject st = new StatusProject(project, nomeArquivo);
 	}
 }
