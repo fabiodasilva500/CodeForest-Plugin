@@ -1,10 +1,5 @@
-code-forest
-===========
+A CodeForest é um Plugin Integrável com a IDE Ecliose que tem como objetivo auxiliar os desenvolvedores na atividade de depuração através de representações visuais tridimensionais em uma floresta de cactos que demonstra os elementos mais suspeitos de um programa.
 
-The CodeForest Repository
+Ela utiliza informações do teste para verificar os trechos da aplicação com maior probabilidade de apresentar defeitos. Na CodeForest as classes são representadas como cactos, os métodos são galhos e as linhas de um programa avaliado como espinhos de um galho.
 
-Eclipse Plug-in that shows the project code represented as a forest of cacti. The metaphor represent each class as a cacti tree, each method as a branch and each line as leaf (thorns). The position of the tree regarding the whole forest is based on the suspicious value of the class, the class with the node containing the highest value will be in the front row and in the right site. The goal is to focus the programmer’s attention on the highest ranked cacti. The elements are colored also based on the suspicious value, the red color represent the highest ranked elements and green represents the lowest ranked ones, it varies from pure red to pure green as the suspicious value decrease.
-
-Now, integrated with [Jaguar](https://github.com/henriquelemos0/jaguar). Hence, it is possible to run the tests collecting coverage information, generate the xml containing the suspicous value of each element and see them as a cacti forest.
-
-Check [Wiki](https://github.com/henriquelemos0/code-forest/wiki) for more information.
+Os resultados são apresentados na metáfora visual através dos relatórios de erros gerados pela Jaguar para a identificação dos elementos mais suspeitos que pode ser baixada no seguinte endereço: https://github.com/henriquelemos0/jaguar
