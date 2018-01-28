@@ -21,6 +21,7 @@ import br.usp.each.saeg.code.forest.domain.ScriptEligibility;
 import br.usp.each.saeg.code.forest.domain.ScriptFilter;
 import br.usp.each.saeg.code.forest.domain.TreeData;
 import br.usp.each.saeg.code.forest.ui.core.CodeForestUIPlugin;
+import br.usp.each.saeg.code.forest.ui.core.Configuration;
 import br.usp.each.saeg.code.forest.ui.editor.OpenEditor;
 import br.usp.each.saeg.code.forest.ui.project.ProjectState;
 
@@ -67,6 +68,8 @@ public class ScriptPanel extends JPanel {
         }
         Object[][] data = new Object[scriptElements.size()][4];
         int i = 0;
+        
+        if(Configuration.VIEW_TABLE_VALUES) {
         for (ScriptData scriptData : scriptElements.values()) {
             data[i][0] = scriptData.getClassName();
             data[i][1] = scriptData.getMethodName();
@@ -74,8 +77,9 @@ public class ScriptPanel extends JPanel {
             data[i][3] = scriptData;
             i++;
         }
-        ScriptTableModel model = new ScriptTableModel(data, new String[] { "Class", "Method", "Score" });
-        setUp(model);
+         ScriptTableModel model = new ScriptTableModel(data, new String[] { "Class", "Method", "Score" });
+          setUp(model);
+        }
     }
 
     private void setUp(final ScriptTableModel model) {

@@ -60,8 +60,10 @@ public class SquareForest implements Forest {
         
         }
         
-       
+        //Realizando a ordenação dos elementos na floresta de cactus
         Collections.sort(coveredTrees);
+        System.out.println("Passando pela ordenação");
+     
         float xSize = 0;
         short totalAddedTrunks = 0;
         
@@ -78,7 +80,7 @@ public class SquareForest implements Forest {
             Trunk tr = new Trunk(data, restrictions);
             if(data.getScore() >= MIN_SUSPICIOUS_VALUES){
             	trunks.add(tr);
-            	totalAddedTrunks++;
+               	totalAddedTrunks++;
             	xSize += tr.getLinearSize()+10;
             }
         }

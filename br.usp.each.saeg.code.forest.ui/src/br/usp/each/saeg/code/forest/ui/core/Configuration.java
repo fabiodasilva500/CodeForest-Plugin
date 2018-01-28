@@ -16,4 +16,5 @@ public class Configuration {
     public static final SizingAttribute SIZING_ATTRIBUTE = SizingAttribute.CLASS;
     public static TreeDataComparator TREE_DATA_COMPARE_STRATEGY = TreeDataComparator.SCORE_AND_NUMBER_AND_METHODS;
     public static final boolean RENDER_WIREFRAME = false;
+	public static final boolean VIEW_TABLE_VALUES = false;
 }

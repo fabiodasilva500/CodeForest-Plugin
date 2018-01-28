@@ -2,9 +2,7 @@ package br.usp.each.saeg.code.forest.inspection.requested;
 
 
 import org.eclipse.core.commands.ExecutionException;
-
 import br.usp.each.saeg.code.forest.ui.web.RedirectApplicationWebSite;
-
 
 
 public class RedirectApplication{
