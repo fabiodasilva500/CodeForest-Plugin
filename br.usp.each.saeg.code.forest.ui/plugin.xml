@@ -191,7 +191,9 @@
             id="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.category.name">
         </category>
-        <command
+        
+		<!-- Trecho removido
+		<command
             id="br.usp.each.saeg.code.forest.ui.commands.runAll"
             categoryId="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.commands.runAll">
@@ -201,7 +203,7 @@
             categoryId="br.usp.each.saeg.code.forest.ui.category"
             name="br.usp.each.saeg.code.forest.ui.commands.runJaguar">
         </command>
-		
+		--> 
 		<!-- Definindo o ID, categoryId que o componente pertence e o nome da extensão para posterior acesso as classes por meio da requisição do menu -->
 		<!-- Basicamente é definida a categoria que o elemento pertence -->
         <command
@@ -226,6 +228,7 @@
 	<!-- Basicamente é configurado qual classe será acessada pelo commandId definido -->
    <extension
         point="org.eclipse.ui.handlers">
+		<!-- Trecho removido
         <handler
             class="br.usp.each.saeg.code.forest.ui.handlers.RunAllHandler"
             commandId="br.usp.each.saeg.code.forest.ui.commands.runAll">
@@ -234,6 +237,7 @@
             class="br.usp.each.saeg.code.forest.ui.handlers.RunJaguarHandler"
             commandId="br.usp.each.saeg.code.forest.ui.commands.runJaguar">
         </handler>
+		-->
        <handler
             class="br.usp.each.saeg.code.forest.ui.handlers.ViewAsCodeForestAnalysisHandler"
             commandId="br.usp.each.saeg.code.forest.ui.commands.perform.analysis">
@@ -277,7 +281,8 @@
 		<!-- É definido quando a classe configurada no command de uma categoria pertencente uma extensão será acessada -->
         <menuContribution
             locationURI= "popup:br.usp.each.saeg.code.forest.ui.menu?after=additions">
-            <command
+        <!-- Trecho removido 
+			<command
                 commandId="br.usp.each.saeg.code.forest.ui.commands.runAll"
                 icon="icons/cactus_status.gif"
                 id="br.usp.each.saeg.code.forest.ui.menu.item.runAll"
@@ -289,6 +294,7 @@
                 id="br.usp.each.saeg.code.forest.ui.menu.item.runJaguar"
                 label="Run Jaguar">
             </command>
+		--> 
 			  <command
                 commandId="br.usp.each.saeg.code.forest.ui.commands.perform.analysis"
                 icon="icons/analyse_it.gif"

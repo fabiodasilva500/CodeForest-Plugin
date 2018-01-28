@@ -1,14 +1,17 @@
 package br.usp.each.saeg.code.forest.inspection.requested;
 
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IProject;
 
 public class StatusProject {
  private static IProject project;
+ private static ExecutionEvent arg;
  private static String nomeArquivo;
  private static int qtdCactus;
  private static double valorDeSuspeicao;
  private static String requisicaoInspecao;
  private static String requisicaoAnalise;
+ 
  
  public StatusProject(IProject actualProject, String nome){
  project = actualProject;
@@ -62,4 +65,7 @@ return project;
  public static double getValorDeSuspeicao(){
  return valorDeSuspeicao;
  }
+ 
+ 
+ 
 }

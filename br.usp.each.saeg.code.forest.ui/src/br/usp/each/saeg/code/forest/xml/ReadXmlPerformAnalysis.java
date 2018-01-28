@@ -124,7 +124,6 @@ public List<PerformAnalysis> verificaArquivosGerados(){
 		
 		String novo = arquivo;
 		arquivo="\\jaguar\\"+arquivo;		
-		String auxiliar= 
 		id = novo.substring(novo.length()-17, novo.length()-4);
 		id = id+"   -   ";
 		

@@ -83,31 +83,12 @@ public class RunAnalysisHandler extends AbstractHandler {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-		
-		//Buscando o arquivo selecionado a partir da integração com a Jaguar
-		XmlInput xmlInput = readXML(project.getFile(nomeArquivo));
-		System.out.println("Varrendo:"+nomeArquivo);
-		
+
 		ProjectState state = ProjectPersistence.getStateOf(project);
 		if (state == null) {
 			return null;
 		}
 		
-		
-		Map<IResource, List<Map<String, Object>>> resourceMarkerProps = new IdentityHashMap<IResource, List<Map<String, Object>>>();
-
-		for (List<IResource> files : ProjectUtils.javaFilesOf(project).values()) {
-			for (IResource file : files) {
-				ParsingResult result = parse(file, xmlInput);
-				TreeDataBuilderResult buildResult = TreeDataBuilder.from(result, SourceCodeUtils.read(file));
-				resourceMarkerProps.put(buildResult.getResource(), buildResult.getMarkerProperties());
-				state.getAnalysisResult().put(result.getURI(), buildResult.getTreeData());
-			}
-		}
-		
-		
-		
-		CodeMarkerFactory.scheduleMarkerCreation(resourceMarkerProps);
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(arg);
 		System.out.println("Argumentos para ativação:"+arg);
 		IWorkbenchPage page = window.getActivePage();
@@ -118,11 +99,33 @@ public class RunAnalysisHandler extends AbstractHandler {
 		}
 		//Ativação da View
 		state.setAnalyzed(true);
-		
-		
+
 		CodeForestUIPlugin.ui(project, this, "run analysis");
-	
+		
 		return null;
+	}
+	
+	public void readXmlFile(){
+	//Buscando o arquivo selecionado a partir da integração com a Jaguar
+	StatusProject st = new StatusProject();
+	project = st.getProject();
+	nomeArquivo = st.getNomeArquivo();
+	
+	XmlInput xmlInput = readXML(project.getFile(nomeArquivo));
+	ProjectState state = ProjectPersistence.getStateOf(project);
+	
+	Map<IResource, List<Map<String, Object>>> resourceMarkerProps = new IdentityHashMap<IResource, List<Map<String, Object>>>();
+
+	for (List<IResource> files : ProjectUtils.javaFilesOf(project).values()) {
+		for (IResource file : files) {
+			ParsingResult result = parse(file, xmlInput);
+			TreeDataBuilderResult buildResult = TreeDataBuilder.from(result, SourceCodeUtils.read(file));
+			resourceMarkerProps.put(buildResult.getResource(), buildResult.getMarkerProperties());
+			state.getAnalysisResult().put(result.getURI(), buildResult.getTreeData());
+		}
+	}
+	
+	CodeMarkerFactory.scheduleMarkerCreation(resourceMarkerProps);
 	}
 
 	//Realiza a leitura do arquivo XML com base na classe XMLInput

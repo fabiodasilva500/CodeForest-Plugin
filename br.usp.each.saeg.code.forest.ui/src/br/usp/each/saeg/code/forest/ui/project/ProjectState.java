@@ -19,7 +19,8 @@ public class ProjectState {
     private final Map<String, Collection<SimpleMarkerAnnotation>> fileAnnotations = new HashMap<String, Collection<SimpleMarkerAnnotation>>();
     private boolean analyzed = false;
     private ScriptFilter filter;
-    private final String folderName = "/tmp/" + "##project##_" + new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()) + "/";
+    //private final String folderName = "/tmp/" + "##project##_" + new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis()) + "/";
+    private final String folderName = System.getProperty("user.home") + System.getProperty("file.separator")+"Desktop"+System.getProperty("file.separator");// + "##project##";
     private final String logFileName = folderName + "code_forest_commands.log";
     private int count = 1;
     private final String screenFileName = folderName + "screenshot" + "_" + "##number##" + ".jpg";

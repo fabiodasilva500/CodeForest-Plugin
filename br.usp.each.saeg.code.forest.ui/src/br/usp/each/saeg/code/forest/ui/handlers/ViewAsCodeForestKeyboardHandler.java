@@ -37,11 +37,11 @@ public class ViewAsCodeForestKeyboardHandler extends OnlyAfterAnalysisHandler {
 		}
 		
         try {
+        	readXmlFile();
         	closeViews();
         	StatusProject st = new StatusProject();
         	st.setRequisicaoInspecao("firstInspection");
        
-
         	PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage().showView(CodeForestKeyboardView.VIEW_ID, project.getName(), IWorkbenchPage.VIEW_VISIBLE);
 
         } catch (Exception e) {
@@ -53,6 +53,12 @@ public class ViewAsCodeForestKeyboardHandler extends OnlyAfterAnalysisHandler {
         CodeForestUIPlugin.ui(project, this, "code forest keyboard");
         return null;
     }
+	
+	
+	private void readXmlFile(){
+    RunAnalysisHandler ra = new RunAnalysisHandler();
+    ra.readXmlFile();
+	}
 	
 	private void closeViews(){
     CloseAllViewsListener close = new CloseAllViewsListener();

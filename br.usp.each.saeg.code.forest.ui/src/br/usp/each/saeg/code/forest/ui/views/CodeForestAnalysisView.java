@@ -11,20 +11,20 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
 import swingintegration.example.EmbeddedSwingComposite;
 import br.usp.each.saeg.code.forest.inspection.requested.StatusProject;
-import br.usp.each.saeg.code.forest.metaphor.assembler.SquareForest;
 import br.usp.each.saeg.code.forest.perform.analysis.PerformAnalysis;
+import br.usp.each.saeg.code.forest.send.data.IDValidator;
+import br.usp.each.saeg.code.forest.ui.core.CodeForestUIPlugin;
 import br.usp.each.saeg.code.forest.ui.handlers.RunAnalysisHandler;
 import br.usp.each.saeg.code.forest.ui.project.ProjectPersistence;
 import br.usp.each.saeg.code.forest.ui.project.ProjectState;
@@ -36,6 +36,7 @@ import br.usp.each.saeg.code.forest.xml.ReadXmlPerformAnalysis;
 public class CodeForestAnalysisView extends ViewPart implements ItemListener {
     public static final String VIEW_ID = "br.usp.each.saeg.code.forest.menu.view.perform.analysis";
     
+	   private static final String POPUP_ID_MESSAGE = "";
        	private JPanel principal = new JPanel();
  		private JPanel panTexto = new JPanel();
  		private JPanel panBotoes = new JPanel();
@@ -45,7 +46,7 @@ public class CodeForestAnalysisView extends ViewPart implements ItemListener {
   	    private EmbeddedSwingComposite composite;
  	    private IProject project;
  	    private ProjectState state;
- 	    private int anterior=0;
+ 	    private int anterior=-1;
  	    private String requisition=""; 
 
 	
@@ -91,6 +92,11 @@ public class CodeForestAnalysisView extends ViewPart implements ItemListener {
                composite.dispose();
                composite = null;
            }
+     
+      InputDialog inputDialog = new InputDialog(Display.getCurrent().getActiveShell(),"ID",POPUP_ID_MESSAGE,"", new IDValidator());
+	  inputDialog.open();
+	  System.out.println("ID number is "+inputDialog.getValue());
+	  CodeForestUIPlugin.ui(project, this, "ID number is "+inputDialog.getValue());
 
      pa=new ArrayList<PerformAnalysis>();
      ReadXmlPerformAnalysis le = new ReadXmlPerformAnalysis();
@@ -137,11 +143,14 @@ public class CodeForestAnalysisView extends ViewPart implements ItemListener {
 		for (int i=0;i<ch.length;i++){
 		if(ch[i].isSelected()){
 		System.out.println("Selecionada:"+pa.get(i).getId()+" "+pa.get(i).getNomeExibicao());
-        if(anterior>=0){
+        
+		//Trecho removido pois não será possibilitada uma nova seleção na CheckBox
+		/*if(anterior>=0){
         ch[anterior].setSelected(false);
         }
 		anterior = i;
-        
+       */
+		
 		try {
 			RunAnalysisHandler r = new RunAnalysisHandler(project, pa.get(i).getNomeCompleto());
 		} catch (ExecutionException e) {
@@ -149,6 +158,7 @@ public class CodeForestAnalysisView extends ViewPart implements ItemListener {
 			e.printStackTrace();
 		}
 		}
+		ch[i].setEnabled(false);
 		}
 	 }
 	

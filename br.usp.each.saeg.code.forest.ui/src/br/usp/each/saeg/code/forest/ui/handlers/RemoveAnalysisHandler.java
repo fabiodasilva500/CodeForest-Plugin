@@ -4,6 +4,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 
+import br.usp.each.saeg.code.forest.send.data.ScpSend;
 import br.usp.each.saeg.code.forest.ui.core.CodeForestUIPlugin;
 import br.usp.each.saeg.code.forest.ui.core.PluginCleanup;
 import br.usp.each.saeg.code.forest.ui.listeners.CloseAllViewsListener;
@@ -23,6 +24,8 @@ public class RemoveAnalysisHandler extends OnlyAfterAnalysisHandler {
         close.closePerformAnalysis();
         
         CodeForestUIPlugin.ui(project, this, "removing views");
+        ScpSend scp = new ScpSend();
+        scp.sendFile();
         return null;
     }
 }

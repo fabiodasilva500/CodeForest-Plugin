@@ -59,4 +59,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
-Import-Package: br.usp.each.saeg.code.forest.metaphor.assembler
+Import-Package: br.usp.each.saeg.code.forest.metaphor.assembler,
+ com.jcraft.jsch;version="0.1.46",
+ org.eclipse.jdt.junit,
+ org.eclipse.jdt.junit.model,
+ org.junit.runner;version="4.10.0",
+ org.junit.runner.notification;version="4.10.0"
